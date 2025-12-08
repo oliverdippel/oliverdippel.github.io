@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Oliver  Dippel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #1a0dab;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 30px auto 60px auto;
+      padding: 0 16px;
+    }
+
+    /* Name at top */
+    h1.name {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    /* Intro section: text + photo */
+    .intro {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .intro-text {
+      flex: 2;
+      font-size: 0.98rem;
+    }
+
+    .intro-text p {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .links {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      margin: 0 4px;
+    }
+
+    .photo-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-wrapper img {
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 28px 0 18px 0;
+    }
+
+    h2.section-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin: 0 0 8px 0;
+    }
+
+    .research p {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+    }
+
+    /* Publications */
+    .pub-list {
+      margin-top: 10px;
+      font-size: 0.94rem;
+    }
+
+    .pub {
+      margin-bottom: 18px;
+    }
+
+    .pub-title {
+      font-weight: 600;
+      display: block;
+    }
+
+    .pub-authors {
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .pub-venue {
+      margin-top: 2px;
+      color: #555;
+    }
+
+    .pub-links a {
+      margin-right: 8px;
+      font-size: 0.9rem;
+    }
+
+    .pub-teaser {
+      margin-top: 4px;
+    }
+
+    /* Simple thumbnails (optional) */
+    .pub-with-thumb {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .pub-thumb {
+      width: 80px;
+      height: 80px;
+      background: #f2f2f2;
+      border: 1px solid #e0e0e0;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    @media (max-width: 800px) {
+      .intro {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
+
+      .intro-text {
+        width: 100%;
+      }
+
+      .photo-wrapper {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pub-with-thumb {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- HEADER: name -->
+    <h1 class="name">Your Name</h1>
+
+    <!-- INTRO: left text, right photo -->
+    <div class="intro">
+      <div class="intro-text">
+        <!-- Replace these paragraphs with your own bio -->
+        <p>
+          I am a <strong>Ph.D. candidate in Artificial Intelligence</strong> at
+          <a href="#">Your Institution</a>, working on reinforcement learning and
+          decision-making in complex environments. I am also affiliated with the
+          <a href="#">Your Lab / Group</a>, where I advise or collaborate with students on RL and
+          open-ended learning projects.
+        </p>
+        <p>
+          My research focuses on agents that can acquire new skills over time, generalize beyond
+          their training distribution, and interact safely with humans and tools. I am particularly
+          interested in combining <strong>large language models</strong> with
+          <strong>reinforcement learning</strong> to build agents that can plan, reason, and run
+          experiments autonomously.
+        </p>
+        <p>
+          Before my Ph.D., I studied <strong>Your Previous Degree</strong> at
+          <a href="#">Your Previous University</a>. I have also spent time in research labs and
+          industry, working on RL, representation learning, and evaluation of general-purpose agents.
+        </p>
+      </div>
+
+      <div class="photo-wrapper">
+        <!-- Put your own portrait at img/profile.jpg -->
+        <img src="img/profile.jpg" alt="Portrait of Your Name">
+      </div>
+    </div>
+
+    <!-- LINKS UNDER INTRO -->
+    <div class="links">
+      <a href="mailto:your.email@uni.edu">Email</a> /
+      <a href="#">CV</a> /
+      <a href="#">Google Scholar</a> /
+      <a href="#">GitHub</a> /
+      <a href="#">Twitter</a> /
+      <a href="#">LinkedIn</a>
+    </div>
+
+    <!-- RESEARCH SECTION -->
+    <hr>
+    <h2 class="section-title">Research</h2>
+
+    <div class="research">
+      <!-- Adjust these paragraphs to describe your topics -->
+      <p>
+        I am broadly interested in designing learning algorithms that make robust sequential
+        decisions in rich, stochastic environments while continuously acquiring new knowledge.
+        My long-term goal is to develop agents that can solve a wide variety of tasks with little
+        explicit supervision.
+      </p>
+      <p>
+        My work draws on reinforcement learning, open-ended learning, self-supervised representation
+        learning, and natural language processing. Recently, I have been exploring how to augment
+        large language models with decision-making abilities (planning, tool use, feedback-driven
+        adaptation) and how to train them via interaction.
+      </p>
+      <p>
+        I am also interested in generalization and robustness: evaluating agents under distribution
+        shift, noisy dynamics, and novel tasks, and designing methods that remain reliable in these
+        challenging settings.
+      </p>
+    </div>
+
+    <!-- PUBLICATIONS SECTION -->
+    <div class="pub-list">
+
+      <!-- Example publication with thumbnail -->
+      <div class="pub pub-with-thumb">
+        <img class="pub-thumb" src="img/paper1_thumb.png" alt="Thumbnail for Paper 1">
+        <div>
+          <span class="pub-title">
+            <a href="#">Title of Your Paper or Project 1</a>
+          </span>
+          <div class="pub-authors">
+            Your Name, Coauthor A, Coauthor B
+          </div>
+          <div class="pub-venue">
+            Conference / Journal, Year
+          </div>
+          <div class="pub-links">
+            <a href="#">paper</a>
+            <a href="#">code</a>
+            <a href="#">project page</a>
+          </div>
+          <div class="pub-teaser">
+            Short 1–2 sentence summary of the work. For example: we introduce a benchmark and
+            method for training open-ended RL agents that transfer across diverse continuous-control tasks.
+          </div>
+        </div>
+      </div>
+
+      <!-- Example publication without thumbnail -->
+      <div class="pub">
+        <span class="pub-title">
+          <a href="#">Title of Your Paper or Project 2</a>
+        </span>
+        <div class="pub-authors">
+          Your Name, Coauthor C, Coauthor D
+        </div>
+        <div class="pub-venue">
+          Workshop / arXiv preprint, Year
+        </div>
+        <div class="pub-links">
+          <a href="#">paper</a>
+          <a href="#">code</a>
+        </div>
+        <div class="pub-teaser">
+          Brief description of what this work contributes and why it is interesting.
+        </div>
+      </div>
+
+      <!-- Add more .pub blocks as needed -->
+
+    </div>
+
+  </div>
+</body>
+</html>
