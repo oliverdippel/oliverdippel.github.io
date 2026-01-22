@@ -17,7 +17,8 @@
       --radius: 18px;
       --link: #a7d8ff;
       --hover-bg: rgba(167,216,255,0.14);
-      --maxw: 1180px;
+      --maxw: 1280px;
+      --headerH: 62px;
     }
 
     *{ box-sizing: border-box; }
@@ -27,7 +28,7 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--fg);
       background: #070814;
-      overflow: hidden; /* IMPORTANT: prevent body scrolling */
+      overflow: hidden; /* desktop: only right pane scrolls */
     }
     a{ color: var(--link); text-decoration:none; }
     a:hover{ text-decoration: underline; }
@@ -66,7 +67,7 @@
       opacity: 0.10; pointer-events:none;
     }
 
-    /* --- Top header --- */
+    /* --- Header --- */
     header{
       position: fixed;
       top:0; left:0; right:0;
@@ -74,11 +75,15 @@
       backdrop-filter: blur(10px);
       background: linear-gradient(180deg, rgba(10,12,30,0.60), rgba(10,12,30,0.20));
       border-bottom: 1px solid rgba(255,255,255,0.10);
+      height: var(--headerH);
+      display:flex;
+      align-items:center;
     }
     .topbar{
+      width: 100%;
       max-width: var(--maxw);
       margin: 0 auto;
-      padding: 14px 18px;
+      padding: 0 18px;
       display:flex;
       align-items:center;
       justify-content: space-between;
@@ -86,6 +91,7 @@
     }
     .brand{
       display:flex; flex-direction:column; line-height: 1.2;
+      min-width: 220px;
     }
     .brand strong{ font-size: 1.05rem; letter-spacing: 0.2px; }
     .brand span{ font-size: 0.88rem; color: var(--muted); }
@@ -113,48 +119,53 @@
     /* --- Layout --- */
     .layout{
       height: 100vh;
-      padding-top: 62px; /* header height */
+      padding-top: var(--headerH);
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 22px;
+      /* responsive columns that adapt to monitor size */
+      grid-template-columns: clamp(260px, 26vw, 360px) 1fr;
+      gap: clamp(14px, 2vw, 24px);
       max-width: var(--maxw);
       margin: 0 auto;
-      padding-left: 18px;
-      padding-right: 18px;
+      padding-left: clamp(12px, 2vw, 18px);
+      padding-right: clamp(12px, 2vw, 18px);
     }
 
-    /* Sidebar never moves */
+    /* Sidebar stays fixed relative to viewport */
     .side{
       align-self: start;
-      height: calc(100vh - 62px);
-      position: sticky; top: 62px;
+      height: calc(100vh - var(--headerH));
+      position: sticky; top: var(--headerH);
       border-radius: var(--radius);
       background: linear-gradient(180deg, var(--glass2), var(--glass));
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow2);
       backdrop-filter: blur(14px);
       overflow: hidden;
-      padding: 14px;
+      padding: clamp(12px, 1.4vw, 16px);
     }
 
+    /* Photo: not cropped, supports high-res with srcset */
     .portrait{
       width: 100%;
-      aspect-ratio: 1 / 1;
+      height: auto;
+      max-height: 360px;        /* keeps it reasonable on huge screens */
       border-radius: 16px;
-      object-fit: cover;
+      object-fit: contain;      /* IMPORTANT: no cropping */
       border: 1px solid rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.06);
       display:block;
+      padding: 6px;             /* gives breathing room so “contain” looks nicer */
     }
+
     .side h1{
-      font-size: 1.35rem;
+      font-size: clamp(1.22rem, 1.6vw, 1.45rem);
       margin: 12px 0 2px;
       letter-spacing: -0.01em;
     }
     .side p{
       margin: 0 0 10px;
       color: var(--muted);
-      font-size: 0.96rem;
+      font-size: clamp(0.92rem, 1.1vw, 0.98rem);
       line-height: 1.45;
     }
 
@@ -170,6 +181,7 @@
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       margin: 6px 8px 0 0;
       font-size: 0.92rem;
+      white-space: nowrap;
     }
     .pill:hover{
       transform: translateY(-1px);
@@ -178,16 +190,15 @@
       text-decoration: none;
     }
 
-    /* Right panel: ONLY THIS SCROLLS */
+    /* Right panel: only this scrolls */
     .pages{
-      height: calc(100vh - 62px);
+      height: calc(100vh - var(--headerH));
       overflow-y: auto;
       scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
-      padding: 0 6px 0 0;
+      padding-right: 6px;
     }
 
-    /* Hide scrollbar but keep scroll (optional) */
     .pages::-webkit-scrollbar{ width: 10px; }
     .pages::-webkit-scrollbar-thumb{
       background: rgba(255,255,255,0.14);
@@ -196,14 +207,14 @@
       background-clip: padding-box;
     }
 
+    /* Each topic = one full page */
     .page{
-      height: calc(100vh - 62px);
+      height: calc(100vh - var(--headerH));
       scroll-snap-align: start;
       display:flex;
-      padding: 16px 0;
+      padding: clamp(10px, 1.6vw, 16px) 0;
     }
 
-    /* Each topic = one full “window card” */
     .window{
       width: 100%;
       border-radius: var(--radius);
@@ -222,7 +233,7 @@
       align-items:center;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
       flex: 0 0 auto;
     }
@@ -232,38 +243,40 @@
       background: rgba(255,255,255,0.22);
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10);
     }
+
+    /* BIGGER headline text per your request */
     .title{
-      font-weight: 650;
-      font-size: 0.92rem;
-      letter-spacing: 0.2px;
-      color: rgba(255,255,255,0.90);
+      font-weight: 750;
+      font-size: clamp(1.25rem, 1.9vw, 1.65rem);
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.95);
       margin-left: 6px;
     }
 
     .content{
-      padding: 14px 16px 18px;
-      color: rgba(255,255,255,0.86);
-      font-size: 1.0rem;
-      overflow: auto; /* if your content is longer than 1 page */
+      padding: clamp(14px, 1.8vw, 22px);
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(0.98rem, 1.15vw, 1.08rem);
+      overflow: auto;
     }
-    .content p{ margin: 0 0 10px; max-width: 85ch; }
+    .content p{ margin: 0 0 12px; max-width: 90ch; }
     .content p:last-child{ margin-bottom: 0; }
 
     .pub{
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(0,0,0,0.14);
       box-shadow: var(--shadow2);
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .pub strong{ display:block; margin-bottom: 2px; }
-    .pub em{ color: rgba(255,255,255,0.75); font-size: 0.94rem; }
-    .pub .links{ margin-top: 6px; display:flex; gap: 10px; flex-wrap: wrap; font-size: 0.92rem; }
+    .pub em{ color: rgba(255,255,255,0.75); font-size: 0.95rem; }
+    .pub .links{ margin-top: 6px; display:flex; gap: 10px; flex-wrap: wrap; font-size: 0.95rem; }
 
-    /* Mobile: stack */
+    /* Mobile: normal scrolling + stacking */
     @media (max-width: 980px){
-      body{ overflow: auto; } /* allow normal scrolling */
+      body{ overflow: auto; }
       header{ position: sticky; }
       .layout{
         grid-template-columns: 1fr;
@@ -283,10 +296,9 @@
       .page{
         height: auto;
       }
-      .window{
-        min-height: auto;
-      }
+      .window{ min-height: auto; }
       .content{ overflow: visible; }
+      .portrait{ max-height: none; }
     }
   </style>
 </head>
@@ -305,11 +317,10 @@
         <span>Reinforcement Learning · Foundation Models · LLM Agents</span>
       </div>
       <nav class="nav">
-        <!-- IMPORTANT: these will scroll INSIDE .pages (handled by JS below) -->
         <a href="#about" data-target="about">About</a>
         <a href="#research" data-target="research">Research interests</a>
         <a href="#pubs" data-target="pubs">Publications</a>
-        <a href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+        <!-- CV removed from top nav (per your request) -->
       </nav>
     </div>
   </header>
@@ -317,7 +328,15 @@
   <main class="layout">
     <!-- Fixed sidebar -->
     <aside class="side">
-      <img class="portrait" src="img/profile.jpg" alt="Portrait of Oliver Dippel" />
+      <!-- Use a high-res portrait and let the browser pick via srcset -->
+      <!-- Put files: img/profile.jpg (small) and img/profile@2x.jpg (large) -->
+      <img
+        class="portrait"
+        src="img/profile.jpg"
+        srcset="img/profile.jpg 1x, img/profile@2x.jpg 2x"
+        alt="Portrait of Oliver Dippel"
+      />
+
       <h1>Oliver Dippel</h1>
       <p>
         Ph.D. Candidate (AI) · RL & Foundation Models<br/>
@@ -350,11 +369,6 @@
             <p>
               I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
               agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
-            </p>
-            <p>
-              During my Ph.D., I briefly worked at ZeroAI on safety/robustness evaluation for autonomous driving systems.
-              Prior to that, I interned at <a href="https://www.novartis.com" target="_blank" rel="noopener noreferrer">Novartis</a>
-              building internal tools for scientific workflows.
             </p>
           </div>
         </div>
@@ -417,7 +431,6 @@
               </strong>
               <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2023</em>
             </div>
-
           </div>
         </div>
       </section>
@@ -425,14 +438,13 @@
   </main>
 
   <script>
-    // Make nav links scroll INSIDE the .pages container (not the body).
+    // Nav links scroll INSIDE the .pages container (not body).
     const pages = document.getElementById('pages');
     const navLinks = document.querySelectorAll('.nav a[data-target]');
 
     function scrollToSection(id){
       const el = document.getElementById(id);
       if(!el) return;
-      // Scroll inside container
       pages.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
     }
 
@@ -443,7 +455,7 @@
       });
     });
 
-    // Optional: highlight active nav item based on current snapped page
+    // Optional: highlight active nav item based on current page
     function setActive(id){
       navLinks.forEach(a => a.style.outline = 'none');
       const active = document.querySelector(`.nav a[data-target="${id}"]`);
@@ -453,9 +465,7 @@
       }
     }
 
-    // Observe which page is most visible in the scroll container
     const observer = new IntersectionObserver((entries) => {
-      // Pick the entry with highest intersection ratio
       const visible = entries
         .filter(e => e.isIntersecting)
         .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -467,7 +477,6 @@
       if(el) observer.observe(el);
     });
 
-    // init
     setActive('about');
   </script>
 </body>
