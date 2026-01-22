@@ -17,10 +17,14 @@
       --shadow2: 0 12px 30px rgba(0,0,0,0.28);
       --radius: 18px;
       --link: #a7d8ff;
+      --hover-bg: rgba(167,216,255,0.14);
+      --maxw: 1180px;
     }
 
     *{ box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     html, body { height: 100%; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -28,6 +32,12 @@
       color: var(--fg);
       background: #070814;
     }
+
+    a{
+      color: var(--link);
+      text-decoration:none;
+    }
+    a:hover{ text-decoration: underline; }
 
     /* --- Animated background --- */
     .bg{
@@ -42,7 +52,6 @@
       filter: saturate(115%);
     }
 
-    /* aurora blobs */
     .blob{
       position: fixed;
       width: 520px;
@@ -58,13 +67,11 @@
     .blob.b1{ left:-120px; top:-120px; background: radial-gradient(circle at 30% 30%, rgba(0,170,255,0.85), rgba(0,0,0,0) 65%); }
     .blob.b2{ right:-160px; top:40px; animation-delay: -6s; background: radial-gradient(circle at 35% 35%, rgba(160,90,255,0.85), rgba(0,0,0,0) 65%); }
     .blob.b3{ left:35%; bottom:-220px; width:640px; height:640px; animation-delay: -9s; background: radial-gradient(circle at 40% 40%, rgba(0,255,180,0.75), rgba(0,0,0,0) 65%); }
-
     @keyframes floaty{
       0%,100%{ transform: translate(0,0) scale(1); }
       50%{ transform: translate(18px,-14px) scale(1.03); }
     }
 
-    /* subtle noise overlay */
     .noise{
       position: fixed;
       inset: 0;
@@ -84,7 +91,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.10);
     }
     .topbar{
-      max-width: 1200px;
+      max-width: var(--maxw);
       margin: 0 auto;
       padding: 14px 18px;
       display:flex;
@@ -127,59 +134,93 @@
       transform: translateY(-1px);
       background: rgba(255,255,255,0.10);
       border-color: rgba(255,255,255,0.18);
+      text-decoration: none;
     }
 
-    /* --- Stage --- */
-    .stage{
-      position: relative;
-      min-height: calc(100vh - 64px);
-      padding: 26px 18px 80px;
-      max-width: 1200px;
+    /* --- Layout --- */
+    .wrap{
+      max-width: var(--maxw);
       margin: 0 auto;
+      padding: 26px 18px 90px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 26px;
+      align-items: start;
     }
 
-    .hero{
-      display:flex;
-      align-items:flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 22px 0 20px;
+    /* Sticky left profile panel (optional but nice) */
+    .side{
+      position: sticky;
+      top: 82px;
+      align-self: start;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--glass2), var(--glass));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
     }
-    .hero h1{
-      margin:0;
-      font-size: clamp(2rem, 3.3vw, 3.2rem);
-      letter-spacing: -0.02em;
-      text-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    .side-inner{ padding: 14px 14px 16px; }
+
+    .portrait{
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      display:block;
     }
-    .hero p{
-      margin: 10px 0 0;
+
+    .side h1{
+      font-size: 1.35rem;
+      margin: 12px 0 2px;
+      letter-spacing: -0.01em;
+    }
+    .side p{
+      margin: 0 0 10px;
       color: var(--muted);
-      max-width: 70ch;
-      font-size: 1.02rem;
+      font-size: 0.96rem;
     }
 
-    .hint{
-      color: rgba(255,255,255,0.62);
-      font-size: 0.9rem;
-      text-align: right;
-      user-select:none;
-      padding-bottom: 6px;
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.88);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      margin: 6px 8px 0 0;
+      font-size: 0.92rem;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      background: var(--hover-bg);
+      border-color: rgba(255,255,255,0.20);
+      text-decoration: none;
     }
 
-    /* --- Draggable windows --- */
+    /* Main “windows” as fixed cards in flow */
+    .main{
+      display:flex;
+      flex-direction: column;
+      gap: 18px;
+      scroll-snap-type: y proximity; /* remove if you don’t want snap */
+    }
+
     .window{
-      position: absolute;
-      width: min(520px, 92vw);
       border-radius: var(--radius);
       background: linear-gradient(180deg, var(--glass2), var(--glass));
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
       overflow: hidden;
-      transform: translateZ(0);
+      scroll-snap-align: start;
     }
-    .window.small{ width: min(420px, 92vw); }
-    .window.wide{ width: min(640px, 94vw); }
 
     .titlebar{
       display:flex;
@@ -188,22 +229,14 @@
       gap: 10px;
       padding: 10px 12px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
-      cursor: grab;
-      user-select:none;
     }
-    .titlebar:active{ cursor: grabbing; }
 
-    .dots{
-      display:flex;
-      gap: 7px;
-      align-items:center;
-    }
+    .dots{ display:flex; gap: 7px; align-items:center; }
     .dot{
       width: 10px; height: 10px; border-radius: 50%;
       background: rgba(255,255,255,0.22);
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10);
     }
-
     .title{
       font-weight: 650;
       font-size: 0.92rem;
@@ -212,58 +245,13 @@
       margin-left: 6px;
     }
 
-    .actions{
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .btn{
-      appearance:none;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.85);
-      padding: 6px 10px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.22);
-    }
-
     .content{
       padding: 14px 16px 16px;
       color: rgba(255,255,255,0.86);
-      font-size: 0.97rem;
+      font-size: 0.98rem;
     }
     .content p{ margin: 0 0 10px; }
     .content p:last-child{ margin-bottom: 0; }
-    .content a{ color: var(--link); }
-
-    .chips{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .chip{
-      display:inline-flex;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.82);
-      transition: background .15s ease, transform .15s ease, border-color .15s ease;
-    }
-    .chip:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.22);
-      transform: translateY(-1px);
-    }
 
     .pub{
       padding: 10px 12px;
@@ -277,27 +265,13 @@
     .pub em{ color: rgba(255,255,255,0.75); font-size: 0.94rem; }
     .pub .links{ margin-top: 6px; display:flex; gap: 10px; flex-wrap: wrap; font-size: 0.92rem; }
 
-    /* subtle glow on active window */
-    .window.active{
-      outline: 1px solid rgba(255,255,255,0.16);
-      box-shadow:
-        0 24px 80px rgba(0,0,0,0.38),
-        0 0 0 1px rgba(255,255,255,0.06),
-        0 0 40px rgba(120,170,255,0.16);
-    }
+    /* Anchor offset for sticky header */
+    .anchor{ scroll-margin-top: 92px; }
 
-    /* On small screens, stack windows (no absolute positioning) */
-    @media (max-width: 860px){
-      .hint{ text-align:left; }
-      .window{
-        position: relative;
-        left: 0 !important;
-        top: 0 !important;
-        transform: none !important;
-        margin: 14px 0;
-        width: 100% !important;
-      }
-      .stage{ padding-bottom: 40px; }
+    /* Responsive */
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns: 1fr; }
+      .side{ position: relative; top: auto; }
     }
   </style>
 </head>
@@ -316,237 +290,111 @@
         <span>Reinforcement Learning · Foundation Models · LLM Agents</span>
       </div>
       <nav class="nav">
-        <a href="#w-about">About</a>
-        <a href="#w-research">Research</a>
-        <a href="#w-pubs">Publications</a>
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#pubs">Publications</a>
         <a href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
       </nav>
     </div>
   </header>
 
-  <main class="stage">
-    <div class="hero">
-      <div>
-        <h1>Adaptive agents for long-horizon decision making.</h1>
-        <p>
-          I work on reinforcement learning and foundation-model–based decision systems with an emphasis on
-          generalization, robustness, and learning from feedback.
-        </p>
-      </div>
-      <div class="hint">Tip: drag the windows ✨</div>
-    </div>
+  <main class="wrap">
+    <!-- Left sticky profile -->
+    <aside class="side">
+      <div class="side-inner">
+        <img class="portrait" src="img/profile.jpg" alt="Portrait of Oliver Dippel" />
+        <h1>Oliver Dippel</h1>
+        <p>Ph.D. Candidate (AI) · RL & Foundation Models<br/>Zurich, Switzerland</p>
 
-    <!-- ABOUT WINDOW -->
-    <section class="window wide active" id="w-about" style="left: 18px; top: 150px;">
-      <div class="titlebar" data-drag-handle>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="title">About</div>
-        </div>
-        <div class="actions">
-          <button class="btn" data-bring-front>Focus</button>
-        </div>
+        <a class="pill" href="mailto:o.dippel91@gmail.com">Email</a>
+        <a class="pill" href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+        <a class="pill" href="https://github.com/oliverdippel" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="pill" href="https://www.linkedin.com/in/oliver-dippel-875707192/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
-      <div class="content">
-        <p>
-          I’m a Ph.D. candidate in Artificial Intelligence at the
-          <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>.
-          My work focuses on reinforcement learning under uncertainty and foundation-model–driven agents.
-        </p>
-        <p>
-          I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
-          agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
-        </p>
-        <div class="chips">
-          <a class="chip" href="mailto:o.dippel91@gmail.com">Email</a>
-          <a class="chip" href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
-          <a class="chip" href="https://github.com/oliverdippel" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="chip" href="https://www.linkedin.com/in/oliver-dippel-875707192/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-      </div>
-    </section>
+    </aside>
 
-    <!-- RESEARCH WINDOW -->
-    <section class="window small" id="w-research" style="left: 610px; top: 190px;">
-      <div class="titlebar" data-drag-handle>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="title">Research</div>
-        </div>
-        <div class="actions">
-          <button class="btn" data-bring-front>Focus</button>
-        </div>
-      </div>
-      <div class="content">
-        <p>
-          Core themes: <strong>belief-aware policies</strong>, <strong>uncertainty-aware optimization</strong>,
-          and <strong>feedback-driven post-training</strong>.
-        </p>
-        <p>
-          I care about reliable agent behavior: stability, failure modes, and robust evaluation.
-        </p>
-        <div class="chips">
-          <span class="chip">RL</span>
-          <span class="chip">Bayesian RL</span>
-          <span class="chip">Transformers</span>
-          <span class="chip">LLM Agents</span>
-        </div>
-      </div>
-    </section>
+    <!-- Right content: fixed “windows” in scroll -->
+    <section class="main">
 
-    <!-- PUBLICATIONS WINDOW -->
-    <section class="window wide" id="w-pubs" style="left: 260px; top: 420px;">
-      <div class="titlebar" data-drag-handle>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="title">Selected publications</div>
-        </div>
-        <div class="actions">
-          <button class="btn" data-bring-front>Focus</button>
-        </div>
-      </div>
-      <div class="content">
-        <div class="pub">
-          <strong>
-            <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">
-              Heuristic Transformer: Belief Augmented In-Context Reinforcement Learning
-            </a>
-          </strong>
-          <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2025</em>
-          <div class="links">
-            <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">Paper</a>
+      <section class="window anchor" id="about">
+        <div class="titlebar">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="title">About</div>
           </div>
         </div>
+        <div class="content">
+          <p>
+            I’m a Ph.D. candidate in Artificial Intelligence at the
+            <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>.
+            My work focuses on reinforcement learning under uncertainty and foundation-model–driven agents.
+          </p>
+          <p>
+            I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
+            agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
+          </p>
+        </div>
+      </section>
 
-        <div class="pub">
-          <strong>
-            <a href="https://link.springer.com/chapter/10.1007/978-3-031-77915-2_15" target="_blank" rel="noopener noreferrer">
-              Contextual Transformers for Goal-Oriented Reinforcement Learning
-            </a>
-          </strong>
-          <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2024</em>
-        </div>
-
-        <div class="pub">
-          <strong>
-            <a href="https://link.springer.com/chapter/10.1007/978-3-031-47994-6_30" target="_blank" rel="noopener noreferrer">
-              Deep Reinforcement Learning for Continuous Control of Material Thickness
-            </a>
-          </strong>
-          <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2023</em>
-        </div>
-      </div>
-    </section>
-
-    <!-- OPTIONAL: PROFILE PHOTO WINDOW -->
-    <section class="window small" id="w-photo" style="left: 18px; top: 470px;">
-      <div class="titlebar" data-drag-handle>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="title">Profile</div>
-        </div>
-        <div class="actions">
-          <button class="btn" data-bring-front>Focus</button>
-        </div>
-      </div>
-      <div class="content" style="display:flex; gap:12px; align-items:center;">
-        <img src="img/profile.jpg" alt="Portrait of Oliver Dippel"
-             style="width:96px;height:96px;border-radius:16px;object-fit:cover;border:1px solid rgba(255,255,255,0.16);" />
-        <div>
-          <div style="font-weight:700;">Oliver Dippel</div>
-          <div style="color:rgba(255,255,255,0.72); font-size:0.93rem;">
-            Zurich · RL × Foundation Models
+      <section class="window anchor" id="research">
+        <div class="titlebar">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="title">Research</div>
           </div>
         </div>
-      </div>
-    </section>
+        <div class="content">
+          <p>
+            Core themes: belief-aware policies, uncertainty-aware optimization, and feedback-driven post-training.
+            I care about reliable agent behavior: stability, failure modes, and robust evaluation.
+          </p>
+          <p>
+            Long-term goal: agents that can learn continually, reason over long horizons, and adapt safely in open-ended settings.
+          </p>
+        </div>
+      </section>
 
+      <section class="window anchor" id="pubs">
+        <div class="titlebar">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="title">Selected publications</div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="pub">
+            <strong>
+              <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">
+                Heuristic Transformer: Belief Augmented In-Context Reinforcement Learning
+              </a>
+            </strong>
+            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2025</em>
+            <div class="links">
+              <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">Paper</a>
+            </div>
+          </div>
+
+          <div class="pub">
+            <strong>
+              <a href="https://link.springer.com/chapter/10.1007/978-3-031-77915-2_15" target="_blank" rel="noopener noreferrer">
+                Contextual Transformers for Goal-Oriented Reinforcement Learning
+              </a>
+            </strong>
+            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2024</em>
+          </div>
+
+          <div class="pub">
+            <strong>
+              <a href="https://link.springer.com/chapter/10.1007/978-3-031-47994-6_30" target="_blank" rel="noopener noreferrer">
+                Deep Reinforcement Learning for Continuous Control of Material Thickness
+              </a>
+            </strong>
+            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2023</em>
+          </div>
+        </div>
+      </section>
+
+    </section>
   </main>
-
-  <script>
-    // Bring-to-front + draggable windows (no dependencies)
-    (function () {
-      const windows = Array.from(document.querySelectorAll('.window'));
-      let z = 10;
-
-      function activate(win){
-        windows.forEach(w => w.classList.remove('active'));
-        win.classList.add('active');
-        win.style.zIndex = (++z).toString();
-      }
-
-      windows.forEach(win => {
-        // Focus button
-        win.querySelectorAll('[data-bring-front]').forEach(btn => {
-          btn.addEventListener('click', (e) => { e.preventDefault(); activate(win); });
-        });
-
-        // clicking anywhere focuses
-        win.addEventListener('mousedown', () => activate(win), { passive: true });
-
-        // drag via titlebar
-        const handle = win.querySelector('[data-drag-handle]');
-        if(!handle) return;
-
-        let startX=0, startY=0, startLeft=0, startTop=0, dragging=false;
-
-        const onMove = (ev) => {
-          if(!dragging) return;
-          const x = (ev.touches ? ev.touches[0].clientX : ev.clientX);
-          const y = (ev.touches ? ev.touches[0].clientY : ev.clientY);
-          const dx = x - startX;
-          const dy = y - startY;
-
-          // keep within viewport a bit
-          const newLeft = startLeft + dx;
-          const newTop  = startTop + dy;
-
-          win.style.left = newLeft + 'px';
-          win.style.top  = newTop  + 'px';
-        };
-
-        const onUp = () => {
-          if(!dragging) return;
-          dragging = false;
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-          document.removeEventListener('touchmove', onMove);
-          document.removeEventListener('touchend', onUp);
-        };
-
-        const onDown = (ev) => {
-          // Disable dragging on mobile stacked layout
-          if (window.matchMedia('(max-width: 860px)').matches) return;
-
-          activate(win);
-          dragging = true;
-
-          const rect = win.getBoundingClientRect();
-          startLeft = rect.left + window.scrollX;
-          startTop  = rect.top  + window.scrollY;
-
-          startX = (ev.touches ? ev.touches[0].clientX : ev.clientX);
-          startY = (ev.touches ? ev.touches[0].clientY : ev.clientY);
-
-          // ensure absolute positioning coordinates are used
-          win.style.left = startLeft + 'px';
-          win.style.top  = startTop + 'px';
-
-          document.addEventListener('mousemove', onMove, { passive: true });
-          document.addEventListener('mouseup', onUp, { passive: true });
-          document.addEventListener('touchmove', onMove, { passive: true });
-          document.addEventListener('touchend', onUp, { passive: true });
-
-          ev.preventDefault();
-        };
-
-        handle.addEventListener('mousedown', onDown);
-        handle.addEventListener('touchstart', onDown, { passive: false });
-      });
-
-      // Initial z ordering
-      windows.forEach(w => { w.style.zIndex = (++z).toString(); });
-    })();
-  </script>
 </body>
 </html>
