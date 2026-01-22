@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Oliver Dippel — RL × Foundation Models</title>
-  <meta name="description" content="Oliver Dippel — Reinforcement Learning & Foundation Models" />
 
   <style>
     :root{
@@ -22,28 +21,20 @@
     }
 
     *{ box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     html, body { height: 100%; }
-
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      overflow-x:hidden;
       color: var(--fg);
       background: #070814;
+      overflow: hidden; /* IMPORTANT: prevent body scrolling */
     }
-
-    a{
-      color: var(--link);
-      text-decoration:none;
-    }
+    a{ color: var(--link); text-decoration:none; }
     a:hover{ text-decoration: underline; }
 
     /* --- Animated background --- */
     .bg{
-      position: fixed;
-      inset: 0;
-      z-index: -3;
+      position: fixed; inset:0; z-index:-3;
       background:
         radial-gradient(1200px 800px at 20% 15%, rgba(0, 170, 255, 0.35), transparent 55%),
         radial-gradient(900px 700px at 85% 25%, rgba(160, 90, 255, 0.32), transparent 60%),
@@ -51,11 +42,9 @@
         linear-gradient(180deg, #050615 0%, #070826 60%, #060613 100%);
       filter: saturate(115%);
     }
-
     .blob{
       position: fixed;
-      width: 520px;
-      height: 520px;
+      width: 520px; height: 520px;
       border-radius: 50%;
       filter: blur(45px);
       opacity: 0.55;
@@ -71,23 +60,19 @@
       0%,100%{ transform: translate(0,0) scale(1); }
       50%{ transform: translate(18px,-14px) scale(1.03); }
     }
-
     .noise{
-      position: fixed;
-      inset: 0;
-      z-index: -1;
+      position: fixed; inset:0; z-index:-1;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
-      opacity: 0.10;
-      pointer-events:none;
+      opacity: 0.10; pointer-events:none;
     }
 
     /* --- Top header --- */
     header{
-      position: sticky;
-      top: 0;
+      position: fixed;
+      top:0; left:0; right:0;
       z-index: 50;
       backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(10,12,30,0.60), rgba(10,12,30,0.25));
+      background: linear-gradient(180deg, rgba(10,12,30,0.60), rgba(10,12,30,0.20));
       border-bottom: 1px solid rgba(255,255,255,0.10);
     }
     .topbar{
@@ -100,29 +85,17 @@
       gap: 12px;
     }
     .brand{
-      display:flex;
-      flex-direction:column;
-      line-height: 1.2;
+      display:flex; flex-direction:column; line-height: 1.2;
     }
-    .brand strong{
-      font-size: 1.05rem;
-      letter-spacing: 0.2px;
-    }
-    .brand span{
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
+    .brand strong{ font-size: 1.05rem; letter-spacing: 0.2px; }
+    .brand span{ font-size: 0.88rem; color: var(--muted); }
 
     .nav{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      display:flex; align-items:center; gap: 10px;
+      flex-wrap: wrap; justify-content: flex-end;
     }
     .nav a{
       color: var(--fg);
-      text-decoration:none;
       padding: 8px 11px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.12);
@@ -134,34 +107,35 @@
       transform: translateY(-1px);
       background: rgba(255,255,255,0.10);
       border-color: rgba(255,255,255,0.18);
-      text-decoration: none;
+      text-decoration:none;
     }
 
     /* --- Layout --- */
-    .wrap{
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 26px 18px 90px;
+    .layout{
+      height: 100vh;
+      padding-top: 62px; /* header height */
       display: grid;
       grid-template-columns: 320px 1fr;
-      gap: 26px;
-      align-items: start;
+      gap: 22px;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding-left: 18px;
+      padding-right: 18px;
     }
 
-    /* Sticky left profile panel (optional but nice) */
+    /* Sidebar never moves */
     .side{
-      position: sticky;
-      top: 82px;
       align-self: start;
+      height: calc(100vh - 62px);
+      position: sticky; top: 62px;
       border-radius: var(--radius);
       background: linear-gradient(180deg, var(--glass2), var(--glass));
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow2);
       backdrop-filter: blur(14px);
       overflow: hidden;
+      padding: 14px;
     }
-
-    .side-inner{ padding: 14px 14px 16px; }
 
     .portrait{
       width: 100%;
@@ -172,7 +146,6 @@
       background: rgba(255,255,255,0.06);
       display:block;
     }
-
     .side h1{
       font-size: 1.35rem;
       margin: 12px 0 2px;
@@ -182,6 +155,7 @@
       margin: 0 0 10px;
       color: var(--muted);
       font-size: 0.96rem;
+      line-height: 1.45;
     }
 
     .pill{
@@ -204,22 +178,43 @@
       text-decoration: none;
     }
 
-    /* Main “windows” as fixed cards in flow */
-    .main{
-      display:flex;
-      flex-direction: column;
-      gap: 18px;
-      scroll-snap-type: y proximity; /* remove if you don’t want snap */
+    /* Right panel: ONLY THIS SCROLLS */
+    .pages{
+      height: calc(100vh - 62px);
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      padding: 0 6px 0 0;
     }
 
+    /* Hide scrollbar but keep scroll (optional) */
+    .pages::-webkit-scrollbar{ width: 10px; }
+    .pages::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,0.14);
+      border-radius: 999px;
+      border: 3px solid rgba(0,0,0,0);
+      background-clip: padding-box;
+    }
+
+    .page{
+      height: calc(100vh - 62px);
+      scroll-snap-align: start;
+      display:flex;
+      padding: 16px 0;
+    }
+
+    /* Each topic = one full “window card” */
     .window{
+      width: 100%;
       border-radius: var(--radius);
       background: linear-gradient(180deg, var(--glass2), var(--glass));
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
       overflow: hidden;
-      scroll-snap-align: start;
+      display:flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .titlebar{
@@ -229,8 +224,8 @@
       gap: 10px;
       padding: 10px 12px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
+      flex: 0 0 auto;
     }
-
     .dots{ display:flex; gap: 7px; align-items:center; }
     .dot{
       width: 10px; height: 10px; border-radius: 50%;
@@ -246,11 +241,12 @@
     }
 
     .content{
-      padding: 14px 16px 16px;
+      padding: 14px 16px 18px;
       color: rgba(255,255,255,0.86);
-      font-size: 0.98rem;
+      font-size: 1.0rem;
+      overflow: auto; /* if your content is longer than 1 page */
     }
-    .content p{ margin: 0 0 10px; }
+    .content p{ margin: 0 0 10px; max-width: 85ch; }
     .content p:last-child{ margin-bottom: 0; }
 
     .pub{
@@ -265,13 +261,32 @@
     .pub em{ color: rgba(255,255,255,0.75); font-size: 0.94rem; }
     .pub .links{ margin-top: 6px; display:flex; gap: 10px; flex-wrap: wrap; font-size: 0.92rem; }
 
-    /* Anchor offset for sticky header */
-    .anchor{ scroll-margin-top: 92px; }
-
-    /* Responsive */
+    /* Mobile: stack */
     @media (max-width: 980px){
-      .wrap{ grid-template-columns: 1fr; }
-      .side{ position: relative; top: auto; }
+      body{ overflow: auto; } /* allow normal scrolling */
+      header{ position: sticky; }
+      .layout{
+        grid-template-columns: 1fr;
+        height: auto;
+        padding-top: 0;
+      }
+      .side{
+        position: relative;
+        top: auto;
+        height: auto;
+      }
+      .pages{
+        height: auto;
+        overflow: visible;
+        scroll-snap-type: none;
+      }
+      .page{
+        height: auto;
+      }
+      .window{
+        min-height: auto;
+      }
+      .content{ overflow: visible; }
     }
   </style>
 </head>
@@ -290,111 +305,170 @@
         <span>Reinforcement Learning · Foundation Models · LLM Agents</span>
       </div>
       <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#research">Research</a>
-        <a href="#pubs">Publications</a>
+        <!-- IMPORTANT: these will scroll INSIDE .pages (handled by JS below) -->
+        <a href="#about" data-target="about">About</a>
+        <a href="#research" data-target="research">Research interests</a>
+        <a href="#pubs" data-target="pubs">Publications</a>
         <a href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
       </nav>
     </div>
   </header>
 
-  <main class="wrap">
-    <!-- Left sticky profile -->
+  <main class="layout">
+    <!-- Fixed sidebar -->
     <aside class="side">
-      <div class="side-inner">
-        <img class="portrait" src="img/profile.jpg" alt="Portrait of Oliver Dippel" />
-        <h1>Oliver Dippel</h1>
-        <p>Ph.D. Candidate (AI) · RL & Foundation Models<br/>Zurich, Switzerland</p>
+      <img class="portrait" src="img/profile.jpg" alt="Portrait of Oliver Dippel" />
+      <h1>Oliver Dippel</h1>
+      <p>
+        Ph.D. Candidate (AI) · RL & Foundation Models<br/>
+        Zurich, Switzerland
+      </p>
 
-        <a class="pill" href="mailto:o.dippel91@gmail.com">Email</a>
-        <a class="pill" href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
-        <a class="pill" href="https://github.com/oliverdippel" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="pill" href="https://www.linkedin.com/in/oliver-dippel-875707192/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      </div>
+      <a class="pill" href="mailto:o.dippel91@gmail.com">Email</a>
+      <a class="pill" href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+      <a class="pill" href="https://github.com/oliverdippel" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="pill" href="https://www.linkedin.com/in/oliver-dippel-875707192/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </aside>
 
-    <!-- Right content: fixed “windows” in scroll -->
-    <section class="main">
-
-      <section class="window anchor" id="about">
-        <div class="titlebar">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="title">About</div>
-          </div>
-        </div>
-        <div class="content">
-          <p>
-            I’m a Ph.D. candidate in Artificial Intelligence at the
-            <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>.
-            My work focuses on reinforcement learning under uncertainty and foundation-model–driven agents.
-          </p>
-          <p>
-            I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
-            agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
-          </p>
-        </div>
-      </section>
-
-      <section class="window anchor" id="research">
-        <div class="titlebar">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="title">Research</div>
-          </div>
-        </div>
-        <div class="content">
-          <p>
-            Core themes: belief-aware policies, uncertainty-aware optimization, and feedback-driven post-training.
-            I care about reliable agent behavior: stability, failure modes, and robust evaluation.
-          </p>
-          <p>
-            Long-term goal: agents that can learn continually, reason over long horizons, and adapt safely in open-ended settings.
-          </p>
-        </div>
-      </section>
-
-      <section class="window anchor" id="pubs">
-        <div class="titlebar">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="title">Selected publications</div>
-          </div>
-        </div>
-        <div class="content">
-          <div class="pub">
-            <strong>
-              <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">
-                Heuristic Transformer: Belief Augmented In-Context Reinforcement Learning
-              </a>
-            </strong>
-            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2025</em>
-            <div class="links">
-              <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">Paper</a>
+    <!-- Right: scrollable pages -->
+    <section class="pages" id="pages">
+      <!-- ABOUT -->
+      <section class="page" id="about">
+        <div class="window">
+          <div class="titlebar">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="title">About</div>
             </div>
           </div>
-
-          <div class="pub">
-            <strong>
-              <a href="https://link.springer.com/chapter/10.1007/978-3-031-77915-2_15" target="_blank" rel="noopener noreferrer">
-                Contextual Transformers for Goal-Oriented Reinforcement Learning
-              </a>
-            </strong>
-            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2024</em>
-          </div>
-
-          <div class="pub">
-            <strong>
-              <a href="https://link.springer.com/chapter/10.1007/978-3-031-47994-6_30" target="_blank" rel="noopener noreferrer">
-                Deep Reinforcement Learning for Continuous Control of Material Thickness
-              </a>
-            </strong>
-            <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2023</em>
+          <div class="content">
+            <p>
+              I’m a Ph.D. candidate in Artificial Intelligence at the
+              <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>.
+              My work focuses on reinforcement learning under uncertainty and foundation-model–driven agents.
+            </p>
+            <p>
+              I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
+              agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
+            </p>
+            <p>
+              During my Ph.D., I briefly worked at ZeroAI on safety/robustness evaluation for autonomous driving systems.
+              Prior to that, I interned at <a href="https://www.novartis.com" target="_blank" rel="noopener noreferrer">Novartis</a>
+              building internal tools for scientific workflows.
+            </p>
           </div>
         </div>
       </section>
 
+      <!-- RESEARCH -->
+      <section class="page" id="research">
+        <div class="window">
+          <div class="titlebar">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="title">Research interests</div>
+            </div>
+          </div>
+          <div class="content">
+            <p><strong>Decision making under uncertainty.</strong> Belief-aware policies, posterior regularization, and robust exploration–exploitation trade-offs.</p>
+            <p><strong>Foundation-model agents.</strong> Transformer policy priors, in-context adaptation, long-horizon planning and memory.</p>
+            <p><strong>Learning from feedback.</strong> Reward design, noisy/underspecified feedback, RLHF-style objectives, and failure analysis.</p>
+            <p><strong>Evaluation.</strong> Stress-testing, distribution shift, and reproducible benchmarks for agent robustness.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PUBLICATIONS -->
+      <section class="page" id="pubs">
+        <div class="window">
+          <div class="titlebar">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="title">Publications</div>
+            </div>
+          </div>
+          <div class="content">
+            <div class="pub">
+              <strong>
+                <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">
+                  Heuristic Transformer: Belief Augmented In-Context Reinforcement Learning
+                </a>
+              </strong>
+              <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2025</em>
+              <div class="links">
+                <a href="https://arxiv.org/abs/2511.10251" target="_blank" rel="noopener noreferrer">Paper</a>
+              </div>
+            </div>
+
+            <div class="pub">
+              <strong>
+                <a href="https://link.springer.com/chapter/10.1007/978-3-031-77915-2_15" target="_blank" rel="noopener noreferrer">
+                  Contextual Transformers for Goal-Oriented Reinforcement Learning
+                </a>
+              </strong>
+              <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2024</em>
+            </div>
+
+            <div class="pub">
+              <strong>
+                <a href="https://link.springer.com/chapter/10.1007/978-3-031-47994-6_30" target="_blank" rel="noopener noreferrer">
+                  Deep Reinforcement Learning for Continuous Control of Material Thickness
+                </a>
+              </strong>
+              <em>Oliver Dippel, Alexei Lisitsa, Bei Peng · 2023</em>
+            </div>
+
+          </div>
+        </div>
+      </section>
     </section>
   </main>
+
+  <script>
+    // Make nav links scroll INSIDE the .pages container (not the body).
+    const pages = document.getElementById('pages');
+    const navLinks = document.querySelectorAll('.nav a[data-target]');
+
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      // Scroll inside container
+      pages.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+    }
+
+    navLinks.forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        scrollToSection(a.dataset.target);
+      });
+    });
+
+    // Optional: highlight active nav item based on current snapped page
+    function setActive(id){
+      navLinks.forEach(a => a.style.outline = 'none');
+      const active = document.querySelector(`.nav a[data-target="${id}"]`);
+      if(active){
+        active.style.outline = '2px solid rgba(167,216,255,0.35)';
+        active.style.outlineOffset = '1px';
+      }
+    }
+
+    // Observe which page is most visible in the scroll container
+    const observer = new IntersectionObserver((entries) => {
+      // Pick the entry with highest intersection ratio
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if(visible) setActive(visible.target.id);
+    }, { root: pages, threshold: [0.55, 0.7, 0.85] });
+
+    ['about','research','pubs'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) observer.observe(el);
+    });
+
+    // init
+    setActive('about');
+  </script>
 </body>
 </html>
