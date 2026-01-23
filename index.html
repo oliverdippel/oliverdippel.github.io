@@ -128,19 +128,18 @@
       padding-right: clamp(12px, 2vw, 18px);
     }
 
-    /* Left sidebar stays as glass card (unchanged) */
     .side{
       align-self: start;
       height: calc(100vh - var(--headerH));
       position: sticky; top: var(--headerH);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--glass2), var(--glass));
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(14px);
-      overflow: hidden;
       padding: clamp(12px, 1.4vw, 16px);
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      overflow: visible;
     }
+
 
     .portrait{
       width: 100%;
@@ -301,11 +300,11 @@
     <div class="topbar">
       <div class="brand">
         <strong>Oliver Dippel</strong>
-        <span>Reinforcement Learning · Foundation Models · LLM Agents</span>
+        <span>Reinforcement Learning · Foundation Models</span>
       </div>
       <nav class="nav">
         <a href="#about" data-target="about">About</a>
-        <a href="#research" data-target="research">Research interests</a>
+        <a href="#research" data-target="research">Research Interests</a>
         <a href="#pubs" data-target="pubs">Publications</a>
       </nav>
     </div>
@@ -323,14 +322,15 @@
 
       <h1>Oliver Dippel</h1>
       <p>
-        Ph.D. Candidate (AI) · RL & Foundation Models<br/>
-        Zurich, Switzerland
+        Ph.D. Researcher · RL & Foundation Models<br/>
+        St. Gallen, Switzerland
       </p>
 
       <a class="pill" href="mailto:o.dippel91@gmail.com">Email</a>
       <a class="pill" href="files/Oliver_Dippel_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
       <a class="pill" href="https://github.com/oliverdippel" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a class="pill" href="https://www.linkedin.com/in/oliver-dippel-875707192/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="pill" href="https://www.codewars.com/users/oliverdippel" target="_blank" rel="noopener noreferrer">Codewars</a>
     </aside>
 
     <!-- Right: scrollable pages -->
@@ -341,14 +341,30 @@
           <h2 class="section-title">About</h2>
           <div class="section-content">
             <p>
-              I’m a Ph.D. candidate in Artificial Intelligence at the
-              <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>.
-              My work focuses on reinforcement learning under uncertainty and foundation-model–driven agents.
+              I am a Ph.D. candidate in Artificial Intelligence at the 
+              <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener noreferrer">University of Liverpool</a>, working on reinforcement learning and
+              decision-making in complex environments. I am also affiliated with the
+              <a href="https://www.liverpool.ac.uk/doctoral-training/distributed-algorithms/" target="_blank" rel="noopener noreferrer">Centre for Doctoral Training in Distributed Algorithms</a>.
             </p>
             <p>
-              I’m interested in combining <strong>transformers</strong> with <strong>sequential decision making</strong> to build
-              agents that can <strong>plan</strong>, <strong>adapt</strong>, and <strong>generalize</strong> beyond their training distribution.
+              My research focuses on agents that can acquire new skills over time, generalize beyond
+              their training distribution, and interact safely with humans and tools. I am particularly
+              interested in combining large language models with
+              reinforcement learning to build agents that can plan and reason.
             </p>
+            <p>
+            During my Ph.D., I briefly worked at ZeroAI, a research-driven start-up founded by Ph.D. students, 
+            where I contributed to developing and evaluating autonomous driving systems focused on safety, robustness, 
+            and interpretable decision-making.
+           </p>
+           <p>
+             Prior to my Ph.D., I interned at
+             <a href="https://www.novartis.com">Novartis</a> where I worked in the Early Development Biostatistics department developing internal software tools to streamline and support scientific workflows.
+           </p>
+           <p>
+            I earned an M.Sc. in Applied Statistics and a B.Sc. in Economics at the 
+            <a href="https://www.uni-goettingen.de" target="_blank" rel="noopener noreferrer">Georg-August-University Goettingen</a>.
+           </p>
           </div>
         </div>
       </section>
@@ -356,12 +372,32 @@
       <!-- RESEARCH -->
       <section class="page" id="research">
         <div class="section">
-          <h2 class="section-title">Research interests</h2>
+          <h2 class="section-title">Research Interests</h2>
           <div class="section-content">
-            <p><strong>Decision making under uncertainty.</strong> Belief-aware policies, posterior regularization, and robust exploration–exploitation trade-offs.</p>
-            <p><strong>Foundation-model agents.</strong> Transformer policy priors, in-context adaptation, long-horizon planning and memory.</p>
-            <p><strong>Learning from feedback.</strong> Reward design, noisy/underspecified feedback, RLHF-style objectives, and failure analysis.</p>
-            <p><strong>Evaluation.</strong> Stress-testing, distribution shift, and reproducible benchmarks for agent robustness.</p>
+          <p>
+            My research interests are about developing autonomous learning systems that operate robustly in complex and uncertain environments. 
+            I am interested in agents that go beyond solving a single predefined task, and instead learn how to reason, adapt, and improve 
+            over time through interaction.
+          </p>
+
+          <p>
+            At the core of my interests lies the intersection of reinforcement learning, sequential decision-making, and large-scale models. 
+            I study how artificial agents can understand their surroundings, plan over extended time horizons, and generalize their 
+            behavior beyond the data or situations they were explicitly trained on.
+          </p>
+
+          <p>
+           A long-term motivation is the pursuit of artificial general intelligence (AGI)—systems 
+           capable of flexible reasoning, continual learning, and adaptation across diverse domains without retraining from scratch. 
+           I aim to contribute to this vision by developing agents that can autonomously acquire knowledge, refine their decision-making 
+           processes through experience, and extend their competencies to entirely new tasks and environments.
+          </p>
+
+
+          <p>
+            Ultimately, my goal is to bridge the gap between specialized AI systems and genuinely open-ended learners that can address 
+            a wide range of real-world challenges in a scalable and reliable manner.
+          </p>
           </div>
         </div>
       </section>
